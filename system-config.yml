@@ -1,0 +1,7 @@
+---
+- hosts: test1
+  name: system config
+  vars:
+    #system_timezone: Asia/Tokyo
+  roles:
+    - role: system-config

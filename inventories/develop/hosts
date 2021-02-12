@@ -1,0 +1,5 @@
+[test1]
+host01
+
+[all:vars]
+authorized_key_user=centos

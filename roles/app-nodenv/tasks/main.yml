@@ -1,0 +1,68 @@
+---
+- name: clean nodenv directory
+  file:
+    path: "{{ nodenv_root }}"
+    state: absent
+  when: nodenv_clean
+
+- name: git clone nodenv
+  git:
+    repo: https://github.com/nodenv/nodenv.git
+    dest: "{{ nodenv_root }}"
+    depth: 1
+
+- name: git clone node-build
+  git:
+    repo: https://github.com/nodenv/node-build.git
+    dest: "{{ nodenv_root }}/plugins/node-build"
+    depth: 1
+
+- name: git clone nodenv-update
+  git:
+    repo: https://github.com/nodenv/nodenv-update.git
+    dest: "{{ nodenv_root }}/plugins/nodenv-update"
+    depth: 1
+
+- name: chmod nodenv_root
+  file:
+    path: "{{ nodenv_root }}"
+    state: directory
+    mode: 0700
+
+#- name: compile dynamic bash extension
+#  shell:
+#    cmd: src/configure && make -C src
+#    chdir: "{{ nodenv_root }}"
+
+- name: create 30-nodenv.sh
+  blockinfile:
+    path: ~/.bash.d/30-nodenv.sh
+    block: |
+      export NODENV_ROOT="{{ nodenv_root }}"
+      export PATH="$NODENV_ROOT/bin:$PATH"
+      eval "$(nodenv init -)"
+    create: yes
+    mode: 0600
+
+- name: check installed node version
+  stat:
+    path: "{{ nodenv_root }}/versions/{{ nodejs_version }}"
+  register: node
+
+- name: node installed status
+  debug:
+    msg: "{{ node.stat.exists }}"
+
+- name: nodenv update
+  shell:
+      source ~/.bash.d/30-nodenv.sh
+      nodenv update
+  when: not node.stat.exists
+
+- name: install nodejs
+  shell: |
+    source ~/.bash.d/30-nodenv.sh
+    nodenv install {{ nodejs_version }}
+    nodenv global {{ nodejs_version }}
+    nodenv rehash
+  when: not node.stat.exists

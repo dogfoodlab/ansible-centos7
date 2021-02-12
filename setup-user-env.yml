@@ -1,0 +1,5 @@
+---
+- hosts: test1
+  name: setup user env
+  roles:
+    - role: user-env

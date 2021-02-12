@@ -1,0 +1,15 @@
+---
+- name: install epel
+  become: yes
+  yum:
+    name:
+      - epel-release
+
+- name: install modules
+  become: yes
+  yum:
+    name:
+      - yum-utils
+      - vim
+      - wget
+      - jq

@@ -1,0 +1,11 @@
+---
+- name: set hostname
+  become: yes
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: set timezone
+  become: yes
+  timezone:
+    hwclock: UTC
+    name: "{{ system_timezone }}"

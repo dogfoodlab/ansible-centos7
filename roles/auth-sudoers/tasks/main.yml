@@ -1,0 +1,8 @@
+---
+- name: create sudoers
+  blockinfile:
+    path: /etc/sudoers.d/00-wheel
+    block: |
+      %wheel ALL=(ALL) NOPASSWD: ALL
+    create: yes
+    mode: 0600

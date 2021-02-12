@@ -1,0 +1,9 @@
+---
+- name: set fs.inotify.max_user_watches
+  become: yes
+  sysctl:
+    name: fs.inotify.max_user_watches
+    value: "524288"
+    sysctl_file: /etc/sysctl.d/50-vscode.conf
+    sysctl_set: yes
+    state: present
