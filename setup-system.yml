@@ -1,8 +1,8 @@
 ---
-- hosts: test
-  name: system update
+- hosts: all
+  name: setup system
   vars_files:
-    - .var.init-test.yml
+    - .var.system.yml
   roles:
     - role: system-config
     - role: system-yum-update

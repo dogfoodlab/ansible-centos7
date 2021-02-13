@@ -1,9 +1,9 @@
+host01
+test01
+
 [developer]
 host01
 test01
 
 [minimal]
 host01
-
-[test]
-test01
