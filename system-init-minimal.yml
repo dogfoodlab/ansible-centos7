@@ -1,8 +1,8 @@
 ---
 - hosts: test1
   name: system update
-  vars:
-      #system_timezone: Asia/Tokyo
+  vars_files:
+    - .var.init-minimal.yml
   roles:
     - role: auth-ssh-key
     - role: auth-sudoers

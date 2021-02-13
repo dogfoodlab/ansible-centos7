@@ -1,5 +1,5 @@
 ---
-- name: clean nodenv directory
+- name: clean nodenv directory if clean flag is yes
   file:
     path: "{{ nodenv_root }}"
     state: absent
@@ -23,7 +23,7 @@
     dest: "{{ nodenv_root }}/plugins/nodenv-update"
     depth: 1
 
-- name: chmod nodenv_root
+- name: chmod nodenv root
   file:
     path: "{{ nodenv_root }}"
     state: directory

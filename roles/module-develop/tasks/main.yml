@@ -14,7 +14,7 @@
       - xz-devel
 
 - include_role:
-    name: app-git-224
+    name: dev-git224
 
 - name: add /usr/local/lib to ld.so.conf.d
   become: yes

@@ -1,5 +1,8 @@
 ---
-- name: clean pyenv directory
+- include_role:
+    name: dev-sqlite3
+
+- name: clean pyenv directory if clean flag is yes
   file:
     path: "{{ pyenv_root }}"
     state: absent
@@ -17,7 +20,7 @@
     dest: "{{ pyenv_root }}/plugins/pyenv-update"
     depth: 1
 
-- name: chmod pyenv_root
+- name: chmod pyenv root
   file:
     path: "{{ pyenv_root }}"
     state: directory

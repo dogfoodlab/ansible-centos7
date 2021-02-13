@@ -1,17 +1,17 @@
 ---
-- name: uninstall
+- name: uninstall if reinstall flag is yes
   become: true
   file:
     path: "{{ sqlite3_path }}"
     state: absent
   when: sqlite3_reinstall
 
-- name: check installed
+- name: check sqlite3 installed
   stat:
     path: "{{ sqlite3_path }}"
   register: sqlite3
 
-- name: check version
+- name: check sqlite3 version
   command:
     argv:
       - "{{ sqlite3_path }}"
@@ -21,7 +21,7 @@
   changed_when: false
   when: sqlite3.stat.exists
 
-- name: installed version
+- name: installed sqlite3 version
   debug:
     msg: "{{ sqlite_version.stdout }}"
   when: sqlite3.stat.exists
