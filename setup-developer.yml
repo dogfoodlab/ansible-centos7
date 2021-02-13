@@ -1,8 +1,8 @@
 ---
-- hosts: test1
+- hosts: developer
   name: setup developer
   vars_files:
-    - .var.local.yml
+    - .var.developer.yml
   roles:
     - role: user-env
     - role: module-utils

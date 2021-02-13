@@ -1,11 +1,9 @@
 ---
-- hosts: minimal
+- hosts: test
   name: system update
   vars_files:
-    - .var.init-minimal.yml
+    - .var.init-test.yml
   roles:
-    - role: auth-ssh-key
-    - role: auth-sudoers
     - role: system-config
     - role: system-yum-update
     - role: system-reboot
