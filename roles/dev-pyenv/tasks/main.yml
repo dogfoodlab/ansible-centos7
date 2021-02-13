@@ -39,17 +39,17 @@
 - name: check installed python version
   stat:
     path: "{{ pyenv_root }}/versions/{{ python_version }}"
-  register: python
+  register: python_exec
 
 - name: python installed status
   debug:
-    msg: "{{ python.stat.exists }}"
+    msg: "{{ python_exec.stat.exists }}"
 
 - name: pyenv update
   shell: |
     source ~/.bash.d/30-pyenv.sh
     pyenv update
-  when: not python.stat.exists
+  when: not python_exec.stat.exists
 
 - name: install python
   shell: |
@@ -57,4 +57,4 @@
     pyenv install {{ python_version }}
     pyenv global {{ python_version }}
     pyenv rehash
-  when: not python.stat.exists
+  when: not python_exec.stat.exists
