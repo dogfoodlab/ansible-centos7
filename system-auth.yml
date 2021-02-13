@@ -1,7 +1,0 @@
----
-- hosts: test1
-  name: setup system auth
-  remote_user: root
-  roles:
-    - role: auth-ssh-key
-    - role: auth-sudoers

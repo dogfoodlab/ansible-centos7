@@ -43,9 +43,9 @@
     msg: "{{ python.stat.exists }}"
 
 - name: pyenv update
-  shell:
-      source ~/.bash.d/30-pyenv.sh
-      pyenv update
+  shell: |
+    source ~/.bash.d/30-pyenv.sh
+    pyenv update
   when: not python.stat.exists
 
 - name: install python

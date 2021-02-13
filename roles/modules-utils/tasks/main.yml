@@ -12,4 +12,6 @@
       - yum-utils
       - vim
       - wget
+      - unzip
+      - bzip2
       - jq

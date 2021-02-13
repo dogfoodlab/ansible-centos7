@@ -1,0 +1,74 @@
+---
+- name: uninstall
+  become: true
+  file:
+    path: "{{ sqlite3_path }}"
+    state: absent
+  when: sqlite3_reinstall
+
+- name: check installed
+  stat:
+    path: "{{ sqlite3_path }}"
+  register: sqlite3
+
+- name: check version
+  command:
+    argv:
+      - "{{ sqlite3_path }}"
+      - "--version"
+  register: sqlite_version
+  check_mode: no
+  changed_when: false
+  when: sqlite3.stat.exists
+
+- name: installed version
+  debug:
+    msg: "{{ sqlite_version.stdout }}"
+  when: sqlite3.stat.exists
+
+- name: create temporary directory
+  tempfile:
+    state: directory
+    prefix: "sqlite3-build."
+  register: sqlite3_tempdir
+  when: not sqlite3.stat.exists
+
+- name: create build directory
+  file:
+    path: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
+    state: directory
+  when: not sqlite3.stat.exists
+
+- name: get and extract sqlite3
+  unarchive:
+    src: "{{ sqlite3_src }}"
+    dest: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
+    remote_src: yes
+    extra_opts: "--strip-components=1"
+  when: not sqlite3.stat.exists
+
+- name: configure
+  command:
+    argv:
+      - "./configure"
+      - "--prefix=/usr/local"
+    chdir: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
+  when: not sqlite3.stat.exists
+
+- name: make
+  command:
+    cmd: make
+    chdir: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
+  when: not sqlite3.stat.exists
+
+- name: install
+  become: yes
+  command:
+    cmd: make install
+    chdir: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
+  when: not sqlite3.stat.exists
+
+- name: exec ldconfig
+  become: yes
+  command: ldconfig
+  when: not sqlite3.stat.exists

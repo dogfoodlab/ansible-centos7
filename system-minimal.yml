@@ -1,0 +1,11 @@
+---
+- hosts: test1
+  name: system update
+  vars:
+      #system_timezone: Asia/Tokyo
+  roles:
+    - role: auth-ssh-key
+    - role: auth-sudoers
+    - role: system-config
+    - role: system-yum-update
+    - role: system-reboot

@@ -1,0 +1,25 @@
+---
+- hosts: test1
+  name: setup developer
+  vars:
+    #system_timezone: Asia/Tokyo
+    #sqlite3_reinstall: no
+    #nodenv_root: "$HOME/.nodenv"
+    #nodenv_clean: yes
+    #nodejs_version: 12.20.1
+    #pyenv_root: "$HOME/.pyenv"
+    #pyenv_clean: yes
+    #python_version: 3.9.1
+  roles:
+    #- role: auth-ssh-key
+    #- role: auth-sudoers
+    #- role: system-update
+    #- role: system-config
+    #- role: user-env
+    #- role: modules-utils
+    #- role: modules-develop
+    - role: app-sqlite3
+    #- role: app-vscode
+    #- role: app-nodenv
+    #- role: app-pyenv
+    #- role: service-docker

@@ -1,4 +1,4 @@
 ---
-nodejs_version: 12.20.1
 nodenv_root: "$HOME/.nodenv"
 nodenv_clean: false
+nodejs_version: 12.20.1

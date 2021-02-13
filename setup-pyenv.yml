@@ -1,9 +1,0 @@
----
-- hosts: test1
-  name: setup pyenv
-  vars:
-    #pyenv_root: "$HOME/.pyenv"
-    #python_version: 3.9.1
-    #pyenv_clean: yes
-  roles:
-    - role: app-pyenv

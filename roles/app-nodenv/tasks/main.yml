@@ -54,7 +54,7 @@
     msg: "{{ node.stat.exists }}"
 
 - name: nodenv update
-  shell:
+  shell: |
       source ~/.bash.d/30-nodenv.sh
       nodenv update
   when: not node.stat.exists

@@ -1,6 +1,0 @@
----
-- hosts: test1
-  name: setup devtools
-  roles:
-    - role: app-utils
-    - role: app-devtools

@@ -1,0 +1,32 @@
+---
+- name: install modules
+  become: yes
+  yum:
+    name:
+      - make
+      - gcc
+      - gcc-c++
+      - zlib-devel
+      - bzip2-devel
+      - readline-devel
+      - openssl-devel
+      - libffi-devel
+      - xz-devel
+
+- include_role:
+    name: app-git-224
+
+- name: add /usr/local/lib to ld.so.conf.d
+  become: yes
+  blockinfile:
+    path: /etc/ld.so.conf.d/usr-local-lib.conf
+    block: |
+      /usr/local/lib
+    create: yes
+    mode: 0644
+
+- name: execute ldconfig
+  become: yes
+  command: ldconfig
+  check_mode: no
+  changed_when: false

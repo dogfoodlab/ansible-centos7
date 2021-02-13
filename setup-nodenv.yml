@@ -1,9 +1,0 @@
----
-- hosts: test1
-  name: setup nodenv
-  vars:
-    #nodenv_root: "$HOME/.nodenv"
-    #nodejs_version: 12.20.1
-    #nodenv_clean: yes
-  roles:
-    - role: app-nodenv

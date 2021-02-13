@@ -1,5 +1,0 @@
----
-- hosts: test1
-  name: setup docker
-  roles:
-    - role: service-docker

@@ -1,6 +1,0 @@
----
-- hosts: test1
-  name: system update
-  roles:
-    - role: system-yum-update
-    - role: system-reboot
