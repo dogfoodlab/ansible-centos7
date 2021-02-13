@@ -4,5 +4,6 @@
   vars_files:
     - .var.init-minimal.yml
   roles:
-    - role: auth-ssh-key
     - role: auth-sudoers
+    - role: auth-ssh-key
+    - role: auth-ssh-secure

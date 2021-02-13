@@ -1,0 +1,23 @@
+---
+- name: disable root login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+
+- name: disable empty password
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitEmptyPasswords"
+    line: "PermitEmptyPasswords no"
+
+- name: disable password auth
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+
+- name: restart sshd
+  systemd:
+    name: sshd
+    state: restarted

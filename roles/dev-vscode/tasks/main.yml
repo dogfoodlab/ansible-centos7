@@ -6,4 +6,3 @@
     value: "524288"
     sysctl_file: /etc/sysctl.d/50-vscode.conf
     sysctl_set: yes
-    state: present
