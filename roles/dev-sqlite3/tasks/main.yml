@@ -38,18 +38,6 @@
   register: src_file
   when: build_require
 
-- name: save src url
-  copy:
-    content: "{{ src_file.url }}"
-    dest: "{{ sqlite3_src_url_file }}"
-  when: build_require
-
-- name: save src checksum
-  copy:
-    content: "{{ src_file.checksum_src }}"
-    dest: "{{ sqlite3_checksum_file }}"
-  when: build_require
-
 - name: extract src file
   unarchive:
     src: "{{ src_file.dest }}"
@@ -82,4 +70,16 @@
 - name: exec ldconfig
   become: yes
   command: ldconfig
+  when: build_require
+
+- name: save src url
+  copy:
+    content: "{{ src_file.url }}"
+    dest: "{{ sqlite3_src_url_file }}"
+  when: build_require
+
+- name: save src checksum
+  copy:
+    content: "{{ src_file.checksum_src }}"
+    dest: "{{ sqlite3_checksum_file }}"
   when: build_require
