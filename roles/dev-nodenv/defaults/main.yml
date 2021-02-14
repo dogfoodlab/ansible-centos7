@@ -1,4 +1,5 @@
 ---
+nodejs_version: 14.15.4
 nodenv_root: "$HOME/.nodenv"
-nodenv_clean: false
-nodejs_version: 12.20.1
+nodenv_clean: no
+nodenv_change_global: yes

@@ -52,6 +52,7 @@
   get_url:
     url: "{{ docker_compose_url }}"
     dest: /usr/local/bin/docker-compose
+    force: yes
     mode: +x
 
 - name: edit ~/.bashrc

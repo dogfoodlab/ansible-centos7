@@ -1,4 +1,5 @@
 ---
-pyenv_root: "$HOME/.pyenv"
-pyenv_clean: false
 python_version: 3.9.1
+pyenv_root: "$HOME/.pyenv"
+pyenv_clean: no
+pyenv_change_global: yes

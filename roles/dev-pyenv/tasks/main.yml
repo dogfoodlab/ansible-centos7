@@ -1,7 +1,4 @@
 ---
-- include_role:
-    name: dev-sqlite3
-
 - name: clean pyenv directory if clean flag is yes
   file:
     path: "{{ pyenv_root }}"
@@ -55,6 +52,11 @@
   shell: |
     source ~/.bash.d/30-pyenv.sh
     pyenv install {{ python_version }}
+  when: not python_exec.stat.exists
+
+- name: change global
+  shell: |
+    source ~/.bash.d/30-pyenv.sh
     pyenv global {{ python_version }}
     pyenv rehash
-  when: not python_exec.stat.exists
+  when: pyenv_change_global
