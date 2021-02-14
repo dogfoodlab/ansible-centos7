@@ -1,3 +1,2 @@
 ---
-sqlite3_src: https://www.sqlite.org/2021/sqlite-autoconf-3340100.tar.gz
-sqlite3_reinstall: no
+sqlite3_src_url: https://www.sqlite.org/2021/sqlite-autoconf-3340100.tar.gz

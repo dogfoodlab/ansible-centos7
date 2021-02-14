@@ -1,74 +1,85 @@
 ---
-- name: uninstall if reinstall flag is yes
-  become: true
+- name: create data directory
   file:
-    path: "{{ sqlite3_path }}"
-    state: absent
-  when: sqlite3_reinstall
-
-- name: check sqlite3 installed
-  stat:
-    path: "{{ sqlite3_path }}"
-  register: sqlite3
-
-- name: check sqlite3 version
-  command:
-    argv:
-      - "{{ sqlite3_path }}"
-      - "--version"
-  register: sqlite_version
-  check_mode: no
-  changed_when: false
-  when: sqlite3.stat.exists
-
-- name: installed sqlite3 version
-  debug:
-    msg: "{{ sqlite_version.stdout }}"
-  when: sqlite3.stat.exists
-
-- name: create temporary directory
-  tempfile:
+    path: "{{ data_dir }}"
     state: directory
-    prefix: "sqlite3-build."
-  register: sqlite3_tempdir
-  when: not sqlite3.stat.exists
+
+- name: check sqlite3 path
+  stat:
+    path: "{{ sqlite3_exec_path }}"
+  register: exec_path
+
+- name: check src url
+  stat:
+    path: "{{ sqlite3_src_url_file }}"
+  register: src_url_file
+
+- name: get src url
+  slurp:
+    src: "{{ sqlite3_src_url_file }}"
+  register: src_url
+  when: src_url_file.stat.exists
+
+- name: check src url changed
+  set_fact:
+    build_require: "{{ (not exec_path.stat.exists) or (src_url.content is not defined) or ((src_url.content | b64decode) != sqlite3_src_url) }}"
 
 - name: create build directory
-  file:
-    path: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
+  tempfile:
     state: directory
-  when: not sqlite3.stat.exists
+    prefix: "{{ sqlite3_build_dir_prefix }}"
+  register: build_dir
+  when: build_require
 
-- name: get and extract sqlite3
+- name: download src
+  get_url:
+    url: "{{ sqlite3_src_url }}"
+    dest: "{{ build_dir.path }}/{{ sqlite3_src_file_name }}"
+  register: src_file
+  when: build_require
+
+- name: save src url
+  copy:
+    content: "{{ src_file.url }}"
+    dest: "{{ sqlite3_src_url_file }}"
+  when: build_require
+
+- name: save src checksum
+  copy:
+    content: "{{ src_file.checksum_src }}"
+    dest: "{{ sqlite3_checksum_file }}"
+  when: build_require
+
+- name: extract src file
   unarchive:
-    src: "{{ sqlite3_src }}"
-    dest: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
-    remote_src: yes
+    src: "{{ src_file.dest }}"
+    dest: "{{ build_dir.path }}"
+    copy: no
     extra_opts: "--strip-components=1"
-  when: not sqlite3.stat.exists
+  when: build_require
 
 - name: configure
   command:
     argv:
       - "./configure"
       - "--prefix=/usr/local"
-    chdir: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
-  when: not sqlite3.stat.exists
+    chdir: "{{ build_dir.path }}"
+  when: build_require
 
 - name: make
   command:
     cmd: make
-    chdir: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
-  when: not sqlite3.stat.exists
+    chdir: "{{ build_dir.path }}"
+  when: build_require
 
 - name: install
   become: yes
   command:
     cmd: make install
-    chdir: "{{ sqlite3_tempdir.path }}/{{ sqlite3_build_dir }}"
-  when: not sqlite3.stat.exists
+    chdir: "{{ build_dir.path }}"
+  when: build_require
 
 - name: exec ldconfig
   become: yes
   command: ldconfig
-  when: not sqlite3.stat.exists
+  when: build_require
