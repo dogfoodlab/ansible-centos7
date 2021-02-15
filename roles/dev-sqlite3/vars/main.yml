@@ -3,7 +3,7 @@ data_dir: "~/.ansible/.data/{{ role_name }}"
 
 sqlite3_src_file_name: "sqlite-autoconf.tar.gz"
 sqlite3_checksum_file: "{{ data_dir }}/{{ sqlite3_src_file_name }}.checksum"
-sqlite3_src_url_file: "{{ data_dir }}/{{ sqlite3_src_file_name }}.url"
+sqlite3_url_file: "{{ data_dir }}/{{ sqlite3_src_file_name }}.url"
 
 sqlite3_build_dir_prefix: "sqlite3-build."
 

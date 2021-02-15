@@ -9,16 +9,16 @@
     path: "{{ sqlite3_exec_path }}"
   register: exec_path
 
-- name: check src url
+- name: check url file
   stat:
-    path: "{{ sqlite3_src_url_file }}"
-  register: src_url_file
+    path: "{{ sqlite3_url_file }}"
+  register: url_file
 
-- name: get src url
+- name: read url file
   slurp:
-    src: "{{ sqlite3_src_url_file }}"
+    src: "{{ sqlite3_url_file }}"
   register: src_url
-  when: src_url_file.stat.exists
+  when: url_file.stat.exists
 
 - name: check src url changed
   set_fact:
