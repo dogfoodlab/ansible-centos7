@@ -1,5 +1,5 @@
 ---
-- name: clean pyenv directory if clean flag is yes
+- name: pyenv clean if clean flag is yes
   file:
     path: "{{ pyenv_root }}"
     state: absent
@@ -33,10 +33,11 @@
     create: yes
     mode: 0600
 
-- name: find target python version
+- name: check install require
   stat:
     path: "{{ pyenv_root }}/versions/{{ python_version }}"
   register: python_exec
+  changed_when: not python_exec.stat.exists
 
 - name: pyenv update
   shell: |

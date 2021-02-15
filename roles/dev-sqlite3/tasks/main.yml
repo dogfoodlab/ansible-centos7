@@ -4,12 +4,12 @@
     path: "{{ data_dir }}"
     state: directory
 
-- name: check sqlite3 path
+- name: check stat sqlite3 path
   stat:
     path: "{{ sqlite3_exec_path }}"
   register: exec_path
 
-- name: check url file
+- name: check stat url file
   stat:
     path: "{{ sqlite3_url_file }}"
   register: url_file
@@ -20,9 +20,10 @@
   register: src_url
   when: url_file.stat.exists
 
-- name: check src url changed
+- name: check build require
   set_fact:
     build_require: "{{ (not exec_path.stat.exists) or (src_url.content is not defined) or ((src_url.content | b64decode) != sqlite3_src_url) }}"
+  changed_when: build_require
 
 - name: create build directory
   tempfile:
@@ -75,7 +76,7 @@
 - name: save src url
   copy:
     content: "{{ src_file.url }}"
-    dest: "{{ sqlite3_src_url_file }}"
+    dest: "{{ sqlite3_url_file }}"
   when: build_require
 
 - name: save src checksum

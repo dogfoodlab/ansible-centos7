@@ -1,5 +1,5 @@
 ---
-- name: clean nodenv directory if clean flag is yes
+- name: nodenv clean if clean flag is yes
   file:
     path: "{{ nodenv_root }}"
     state: absent
@@ -44,10 +44,11 @@
     create: yes
     mode: 0600
 
-- name: find target nodejs version
+- name: check install require
   stat:
     path: "{{ nodenv_root }}/versions/{{ nodejs_version }}"
   register: nodejs_exec
+  changed_when: not nodejs_exec.stat.exists
 
 - name: nodenv update
   shell: |
