@@ -47,32 +47,32 @@
 - name: check install require
   stat:
     path: "{{ nodenv_root }}/versions/{{ nodejs_version }}"
-  register: nodejs_exec
-  changed_when: not nodejs_exec.stat.exists
+  register: _nodejs
+  changed_when: not _nodejs.stat.exists
 
 - name: nodenv update
   shell: |
       source ~/.bash.d/30-nodenv.sh
       nodenv update
-  when: not nodejs_exec.stat.exists
+  when: not _nodejs.stat.exists
 
 - name: install nodejs
   shell: |
     source ~/.bash.d/30-nodenv.sh
     nodenv install {{ nodejs_version }}
-  when: not nodejs_exec.stat.exists
+  when: not _nodejs.stat.exists
 
 - name: get global nodejs version
   shell: |
     source ~/.bash.d/30-nodenv.sh
     nodenv global
-  register: nodenv_global
+  register: _nodenv_global
   check_mode: no
-  changed_when: nodenv_global.stdout != nodejs_version
+  changed_when: _nodenv_global.stdout != nodejs_version
 
 - name: change global
   shell: |
     source ~/.bash.d/30-nodenv.sh
     nodenv global {{ nodejs_version }}
     nodenv rehash
-  when: nodenv_global.stdout != nodejs_version
+  when: _nodenv_global.stdout != nodejs_version

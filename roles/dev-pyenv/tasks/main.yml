@@ -36,32 +36,32 @@
 - name: check install require
   stat:
     path: "{{ pyenv_root }}/versions/{{ python_version }}"
-  register: python_exec
-  changed_when: not python_exec.stat.exists
+  register: _python
+  changed_when: not _python.stat.exists
 
 - name: pyenv update
   shell: |
     source ~/.bash.d/30-pyenv.sh
     pyenv update
-  when: not python_exec.stat.exists
+  when: not _python.stat.exists
 
 - name: install python
   shell: |
     source ~/.bash.d/30-pyenv.sh
     pyenv install {{ python_version }}
-  when: not python_exec.stat.exists
+  when: not _python.stat.exists
 
 - name: get global python version
   shell: |
     source ~/.bash.d/30-pyenv.sh
     pyenv global
-  register: pyenv_global
+  register: _pyenv_global
   check_mode: no
-  changed_when: pyenv_global.stdout != python_version
+  changed_when: _pyenv_global.stdout != python_version
 
 - name: change global
   shell: |
     source ~/.bash.d/30-pyenv.sh
     pyenv global {{ python_version }}
     pyenv rehash
-  when: pyenv_global.stdout != python_version
+  when: _pyenv_global.stdout != python_version

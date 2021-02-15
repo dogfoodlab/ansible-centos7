@@ -2,7 +2,7 @@
 - name: get yum installed
   yum:
     list: installed
-  register: yum_installed
+  register: _yum_installed
 
 - name: uninstal @base git
   become: true
@@ -10,7 +10,7 @@
     name:
       - "git*"
     state: absent
-  when: "yum_installed.results | map(attribute='name') | unique | select('match', '^git$')"
+  when: "_yum_installed.results | map(attribute='name') | unique | select('match', '^git$')"
 
 - name: install ius-release
   become: yes

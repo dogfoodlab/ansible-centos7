@@ -6,81 +6,81 @@
 
 - name: check stat sqlite3 path
   stat:
-    path: "{{ sqlite3_exec_path }}"
-  register: exec_path
+    path: "{{ sqlite3_path }}"
+  register: _sqlite3
 
 - name: check stat url file
   stat:
     path: "{{ sqlite3_url_file }}"
-  register: url_file
+  register: _url_file
 
 - name: read url file
   slurp:
     src: "{{ sqlite3_url_file }}"
-  register: src_url
-  when: url_file.stat.exists
+  register: _src_url
+  when: _url_file.stat.exists
 
 - name: check build require
   set_fact:
-    build_require: "{{ (not exec_path.stat.exists) or (src_url.content is not defined) or ((src_url.content | b64decode) != sqlite3_src_url) }}"
-  changed_when: build_require
+    _build_require: "{{ (not _sqlite3.stat.exists) or (_src_url.content is not defined) or ((_src_url.content | b64decode) != sqlite3_src_url) }}"
+  changed_when: _build_require
 
 - name: create build directory
   tempfile:
     state: directory
     prefix: "{{ sqlite3_build_dir_prefix }}"
-  register: build_dir
-  when: build_require
+  register: _build_dir
+  when: _build_require
 
 - name: download src
   get_url:
     url: "{{ sqlite3_src_url }}"
-    dest: "{{ build_dir.path }}/{{ sqlite3_src_file_name }}"
-  register: src_file
-  when: build_require
+    dest: "{{ _build_dir.path }}/{{ sqlite3_src_file_name }}"
+  register: _src_file
+  when: _build_require
 
 - name: extract src file
   unarchive:
-    src: "{{ src_file.dest }}"
-    dest: "{{ build_dir.path }}"
+    src: "{{ _src_file.dest }}"
+    dest: "{{ _build_dir.path }}"
     copy: no
     extra_opts: "--strip-components=1"
-  when: build_require
+  when: _build_require
 
 - name: configure
   command:
     argv:
       - "./configure"
       - "--prefix=/usr/local"
-    chdir: "{{ build_dir.path }}"
-  when: build_require
+    chdir: "{{ _build_dir.path }}"
+  when: _build_require
 
 - name: make
   command:
     cmd: make
-    chdir: "{{ build_dir.path }}"
-  when: build_require
+    chdir: "{{ _build_dir.path }}"
+  when: _build_require
 
 - name: install
   become: yes
   command:
     cmd: make install
-    chdir: "{{ build_dir.path }}"
-  when: build_require
+    chdir: "{{ _build_dir.path }}"
+  when: _build_require
 
 - name: exec ldconfig
   become: yes
   command: ldconfig
-  when: build_require
+  when: _build_require
 
 - name: save src url
   copy:
     content: "{{ src_file.url }}"
     dest: "{{ sqlite3_url_file }}"
-  when: build_require
+  when: _build_require
 
 - name: save src checksum
   copy:
     content: "{{ src_file.checksum_src }}"
     dest: "{{ sqlite3_checksum_file }}"
-  when: build_require
+  when: _build_require
