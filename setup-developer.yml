@@ -1,8 +1,6 @@
 ---
 - hosts: developer
   name: setup developer
-  vars_files:
-    - .var.developer.yml
   roles:
     - role: user-env
     - role: module-utils

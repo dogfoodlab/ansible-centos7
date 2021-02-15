@@ -1,8 +1,6 @@
 ---
 - hosts: all
   name: setup system
-  vars_files:
-    - .var.system.yml
   roles:
     - role: system-config
     - role: system-yum-update

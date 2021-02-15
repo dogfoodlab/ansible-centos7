@@ -1,8 +1,6 @@
 ---
 - hosts: minimal
-  name: init minimal
-  vars_files:
-    - .var.init-minimal.yml
+  name: init minimal centos
   roles:
     - role: auth-sudoers
     - role: auth-ssh-key

@@ -13,7 +13,9 @@
       - libffi-devel
       - xz-devel
 
-- include_tasks: git224.yml
+- name: install git224
+  include_tasks:
+    file: git224.yml
 
 - name: add /usr/local/lib to ld.so.conf.d
   become: yes
