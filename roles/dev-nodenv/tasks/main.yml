@@ -68,7 +68,7 @@
     nodenv global
   register: nodenv_global
   check_mode: no
-  changed_when: no
+  changed_when: nodenv_global.stdout != nodejs_version
 
 - name: change global
   shell: |

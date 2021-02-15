@@ -57,7 +57,7 @@
     pyenv global
   register: pyenv_global
   check_mode: no
-  changed_when: no
+  changed_when: pyenv_global.stdout != python_version
 
 - name: change global
   shell: |
