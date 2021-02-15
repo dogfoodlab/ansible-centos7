@@ -33,14 +33,10 @@
     create: yes
     mode: 0600
 
-- name: check installed python version
+- name: find target python version
   stat:
     path: "{{ pyenv_root }}/versions/{{ python_version }}"
   register: python_exec
-
-- name: python installed status
-  debug:
-    msg: "{{ python_exec.stat.exists }}"
 
 - name: pyenv update
   shell: |
@@ -54,9 +50,17 @@
     pyenv install {{ python_version }}
   when: not python_exec.stat.exists
 
+- name: get global python version
+  shell: |
+    source ~/.bash.d/30-pyenv.sh
+    pyenv global
+  register: pyenv_global
+  check_mode: no
+  changed_when: no
+
 - name: change global
   shell: |
     source ~/.bash.d/30-pyenv.sh
     pyenv global {{ python_version }}
     pyenv rehash
-  when: pyenv_change_global
+  when: pyenv_global.stdout != python_version

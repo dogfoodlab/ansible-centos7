@@ -44,14 +44,10 @@
     create: yes
     mode: 0600
 
-- name: check installed node version
+- name: find target nodejs version
   stat:
     path: "{{ nodenv_root }}/versions/{{ nodejs_version }}"
   register: nodejs_exec
-
-- name: node installed status
-  debug:
-    msg: "{{ nodejs_exec.stat.exists }}"
 
 - name: nodenv update
   shell: |
@@ -65,9 +61,17 @@
     nodenv install {{ nodejs_version }}
   when: not nodejs_exec.stat.exists
 
+- name: get global nodejs version
+  shell: |
+    source ~/.bash.d/30-nodenv.sh
+    nodenv global
+  register: nodenv_global
+  check_mode: no
+  changed_when: no
+
 - name: change global
   shell: |
     source ~/.bash.d/30-nodenv.sh
     nodenv global {{ nodejs_version }}
     nodenv rehash
-  when: nodenv_change_global
+  when: nodenv_global.stdout != nodejs_version
