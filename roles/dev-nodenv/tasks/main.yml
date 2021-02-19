@@ -52,8 +52,8 @@
 
 - name: nodenv update
   shell: |
-      source ~/.bash.d/30-nodenv.sh
-      nodenv update
+    source ~/.bash.d/30-nodenv.sh
+    nodenv update
   when: not _nodejs.stat.exists
 
 - name: install nodejs
