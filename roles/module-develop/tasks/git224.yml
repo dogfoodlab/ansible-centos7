@@ -5,7 +5,7 @@
   register: _yum_installed
 
 - name: uninstal @base git
-  become: true
+  become: yes
   yum:
     name:
       - "git*"
