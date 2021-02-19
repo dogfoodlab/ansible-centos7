@@ -1,0 +1,56 @@
+---
+- name: create data directory
+  file:
+    path: "{{ data_dir }}"
+    state: directory
+
+- name: create build directory
+  tempfile:
+    state: directory
+    prefix: "{{ sqlite3_build_dir_prefix }}"
+  register: _build_dir
+
+- name: download src
+  get_url:
+    url: "{{ sqlite3_src_url }}"
+    dest: "{{ _build_dir.path }}/{{ sqlite3_src_file_name }}"
+  register: _src_file
+
+- name: extract src file
+  unarchive:
+    src: "{{ _src_file.dest }}"
+    dest: "{{ _build_dir.path }}"
+    copy: no
+    extra_opts: "--strip-components=1"
+
+- name: configure
+  command:
+    argv:
+      - "./configure"
+      - "--prefix=/usr/local"
+    chdir: "{{ _build_dir.path }}"
+
+- name: make
+  command:
+    cmd: /bin/make
+    chdir: "{{ _build_dir.path }}"
+
+- name: install
+  become: yes
+  command:
+    cmd: /bin/make install
+    chdir: "{{ _build_dir.path }}"
+
+- name: exec ldconfig
+  become: yes
+  command: /sbin/ldconfig
+
+- name: save src url
+  copy:
+    content: "{{ _src_file.url }}"
+    dest: "{{ sqlite3_url_file }}"
+
+- name: save src checksum
+  copy:
+    content: "{{ _src_file.checksum_src }}"
+    dest: "{{ sqlite3_checksum_file }}"

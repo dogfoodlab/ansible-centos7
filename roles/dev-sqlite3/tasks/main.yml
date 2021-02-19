@@ -1,9 +1,4 @@
 ---
-- name: create data directory
-  file:
-    path: "{{ data_dir }}"
-    state: directory
-
 - name: check stat sqlite3 path
   stat:
     path: "{{ sqlite3_path }}"
@@ -30,62 +25,6 @@
       }}"
   changed_when: _build_require
 
-- name: create build directory
-  tempfile:
-    state: directory
-    prefix: "{{ sqlite3_build_dir_prefix }}"
-  register: _build_dir
-  when: _build_require
-
-- name: download src
-  get_url:
-    url: "{{ sqlite3_src_url }}"
-    dest: "{{ _build_dir.path }}/{{ sqlite3_src_file_name }}"
-  register: _src_file
-  when: _build_require
-
-- name: extract src file
-  unarchive:
-    src: "{{ _src_file.dest }}"
-    dest: "{{ _build_dir.path }}"
-    copy: no
-    extra_opts: "--strip-components=1"
-  when: _build_require
-
-- name: configure
-  command:
-    argv:
-      - "./configure"
-      - "--prefix=/usr/local"
-    chdir: "{{ _build_dir.path }}"
-  when: _build_require
-
-- name: make
-  command:
-    cmd: /bin/make
-    chdir: "{{ _build_dir.path }}"
-  when: _build_require
-
-- name: install
-  become: yes
-  command:
-    cmd: /bin/make install
-    chdir: "{{ _build_dir.path }}"
-  when: _build_require
-
-- name: exec ldconfig
-  become: yes
-  command: /sbin/ldconfig
-  when: _build_require
-
-- name: save src url
-  copy:
-    content: "{{ _src_file.url }}"
-    dest: "{{ sqlite3_url_file }}"
-  when: _build_require
-
-- name: save src checksum
-  copy:
-    content: "{{ _src_file.checksum_src }}"
-    dest: "{{ sqlite3_checksum_file }}"
+- name: build sqlite3
+  include_tasks: build.yml
   when: _build_require
