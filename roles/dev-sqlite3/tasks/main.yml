@@ -75,12 +75,12 @@
 
 - name: save src url
   copy:
-    content: "{{ src_file.url }}"
+    content: "{{ _src_file.url }}"
     dest: "{{ sqlite3_url_file }}"
   when: _build_require
 
 - name: save src checksum
   copy:
-    content: "{{ src_file.checksum_src }}"
+    content: "{{ _src_file.checksum_src }}"
     dest: "{{ sqlite3_checksum_file }}"
   when: _build_require
