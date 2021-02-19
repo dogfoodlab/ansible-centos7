@@ -46,7 +46,7 @@
 
 - name: check install require
   stat:
-    path: "{{ nodenv_root }}/versions/{{ nodejs_version }}"
+    path: "{{ nodenv_root }}/versions/{{ nodenv_nodejs_version }}"
   register: _nodejs
   changed_when: not _nodejs.stat.exists
 
@@ -59,7 +59,7 @@
 - name: install nodejs
   shell: |
     source ~/.bash.d/30-nodenv.sh
-    nodenv install {{ nodejs_version }}
+    nodenv install {{ nodenv_nodejs_version }}
   when: not _nodejs.stat.exists
 
 - name: get global nodejs version
@@ -68,11 +68,11 @@
     nodenv global
   register: _nodenv_global
   check_mode: no
-  changed_when: _nodenv_global.stdout != nodejs_version
+  changed_when: _nodenv_global.stdout != nodenv_nodejs_version
 
 - name: change global
   shell: |
     source ~/.bash.d/30-nodenv.sh
-    nodenv global {{ nodejs_version }}
+    nodenv global {{ nodenv_nodejs_version }}
     nodenv rehash
-  when: _nodenv_global.stdout != nodejs_version
+  when: _nodenv_global.stdout != nodenv_nodejs_version

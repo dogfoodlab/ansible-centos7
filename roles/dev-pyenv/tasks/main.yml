@@ -35,7 +35,7 @@
 
 - name: check install require
   stat:
-    path: "{{ pyenv_root }}/versions/{{ python_version }}"
+    path: "{{ pyenv_root }}/versions/{{ pyenv_python_version }}"
   register: _python
   changed_when: not _python.stat.exists
 
@@ -48,7 +48,7 @@
 - name: install python
   shell: |
     source ~/.bash.d/30-pyenv.sh
-    pyenv install {{ python_version }}
+    pyenv install {{ pyenv_python_version }}
   when: not _python.stat.exists
 
 - name: get global python version
@@ -57,11 +57,11 @@
     pyenv global
   register: _pyenv_global
   check_mode: no
-  changed_when: _pyenv_global.stdout != python_version
+  changed_when: _pyenv_global.stdout != pyenv_python_version
 
 - name: change global
   shell: |
     source ~/.bash.d/30-pyenv.sh
-    pyenv global {{ python_version }}
+    pyenv global {{ pyenv_python_version }}
     pyenv rehash
-  when: _pyenv_global.stdout != python_version
+  when: _pyenv_global.stdout != pyenv_python_version

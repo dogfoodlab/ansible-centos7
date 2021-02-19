@@ -1,4 +1,4 @@
 ---
-python_version: "3.9.1"
+pyenv_python_version: "3.9.1"
 pyenv_root: "$HOME/.pyenv"
 pyenv_clean: no
