@@ -62,20 +62,20 @@
 
 - name: make
   command:
-    cmd: make
+    cmd: /bin/make
     chdir: "{{ _build_dir.path }}"
   when: _build_require
 
 - name: install
   become: yes
   command:
-    cmd: make install
+    cmd: /bin/make install
     chdir: "{{ _build_dir.path }}"
   when: _build_require
 
 - name: exec ldconfig
   become: yes
-  command: ldconfig
+  command: /sbin/ldconfig
   when: _build_require
 
 - name: save src url

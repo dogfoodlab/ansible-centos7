@@ -27,6 +27,6 @@
 
 - name: execute ldconfig
   become: yes
-  command: ldconfig
+  command: /sbin/ldconfig
   check_mode: no
   changed_when: no
