@@ -71,6 +71,8 @@
     block: |
       colorscheme koehler
       set noautoindent
+      set nopaste
+      autocmd Filetype * set formatoptions-=ro
     create: yes
     marker: '" {mark} ANSIBLE MANAGED BLOCK'
     mode: 0600
