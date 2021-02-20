@@ -1,0 +1,31 @@
+---
+- name: edit http-proxy.conf
+  become: yes
+  blockinfile:
+    path: /etc/systemd/system/docker.service.d/http-proxy.conf
+    block: |
+      [Service]
+      Environment="HTTP_PROXY=http://{{ proxy_host }}"
+      Environment="HTTPS_PROXY=http://{{ proxy_host }}"
+      Environment="NO_PROXY={{ proxy_noproxy }}"
+    marker: '# {mark} ANSIBLE MANAGED BLOCK proxy'
+    create: yes
+    mode: 0644
+  register: _edit_result
+  when: proxy_enable_docker
+
+- name: remove http-proxy.conf
+  become: yes
+  file:
+    path: /etc/systemd/system/docker.service.d/http-proxy.conf
+    state: absent
+  register: _remove_result
+  when: not proxy_enable_docker
+
+- name: restart docker
+  become: yes
+  systemd:
+    name: docker
+    state: restarted
+    daemon_reload: yes
+  when: _edit_result.changed or _remove_result.changed

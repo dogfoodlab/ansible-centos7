@@ -1,0 +1,9 @@
+---
+- name: system proxy
+  include_tasks: system.yml
+
+- name: yum proxy
+  include_tasks: yum.yml
+
+- name: docker proxy
+  include_tasks: docker.yml

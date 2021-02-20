@@ -5,3 +5,6 @@ host01
 
 [minimal]
 host01
+
+[proxy]
+host01

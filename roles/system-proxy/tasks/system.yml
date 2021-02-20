@@ -1,0 +1,22 @@
+---
+- name: edit /etc/environment
+  become: yes
+  blockinfile:
+    path: /etc/environment
+    block: |
+      http_proxy="http://{{ proxy_host }}"
+      HTTP_PROXY="http://{{ proxy_host }}"
+      https_proxy="http://{{ proxy_host }}"
+      HTTPS_PROXY="http://{{ proxy_host }}"
+      no_proxy="{{ proxy_noproxy }}"
+      NO_PROXY="{{ proxy_noproxy }}"
+    marker: '# {mark} ANSIBLE MANAGED BLOCK proxy'
+  when: proxy_enable_system
+
+- name:
+  become: yes
+  blockinfile:
+    path: /etc/environment
+    marker: '# {mark} ANSIBLE MANAGED BLOCK proxy'
+    state: absent
+  when: not proxy_enable_system

@@ -1,0 +1,8 @@
+---
+- name: edit /etc/yum.conf
+  become: yes
+  blockinfile:
+    path: /etc/yum.conf
+    block: |
+      proxy=http://{{ proxy_host }}
+    marker: '# {mark} ANSIBLE MANAGED BLOCK proxy'

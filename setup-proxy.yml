@@ -1,0 +1,5 @@
+---
+- hosts: proxy
+  name: setup proxy
+  roles:
+    - role: system-proxy
