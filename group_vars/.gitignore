@@ -1,4 +1,6 @@
 *
 !all.yml
 !developer.yml
+!minimal.yml
+!proxy.yml
 !.gitignore

@@ -13,7 +13,7 @@
     marker: '# {mark} ANSIBLE MANAGED BLOCK proxy'
   when: proxy_enable_system
 
-- name:
+- name: remove /etc/environment
   become: yes
   blockinfile:
     path: /etc/environment

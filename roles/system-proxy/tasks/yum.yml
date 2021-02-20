@@ -6,3 +6,12 @@
     block: |
       proxy=http://{{ proxy_host }}
     marker: '# {mark} ANSIBLE MANAGED BLOCK proxy'
+  when: proxy_enable_system
+
+- name: remove /etc/yum.conf
+  become: yes
+  blockinfile:
+    path: /etc/yum.conf
+    marker: '# {mark} ANSIBLE MANAGED BLOCK proxy'
+    state: absent
+  when: not proxy_enable_system
