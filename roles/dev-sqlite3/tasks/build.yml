@@ -1,9 +1,4 @@
 ---
-- name: create data directory
-  file:
-    path: "{{ data_dir }}"
-    state: directory
-
 - name: create build directory
   tempfile:
     state: directory
@@ -44,6 +39,11 @@
 - name: exec ldconfig
   become: yes
   command: /sbin/ldconfig
+
+- name: create data directory
+  file:
+    path: "{{ data_dir }}"
+    state: directory
 
 - name: save src url
   copy:
