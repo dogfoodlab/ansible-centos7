@@ -1,32 +1,9 @@
 ---
-- name: install modules
-  become: yes
-  yum:
-    name:
-      - make
-      - gcc
-      - gcc-c++
-      - zlib-devel
-      - bzip2-devel
-      - readline-devel
-      - openssl-devel
-      - libffi-devel
-      - xz-devel
+- name: yum
+  include_tasks: yum.yml
 
-- name: install git224
+- name: git224
   include_tasks: git224.yml
 
-- name: add /usr/local/lib to ld.so.conf.d
-  become: yes
-  blockinfile:
-    path: /etc/ld.so.conf.d/usr-local-lib.conf
-    block: |
-      /usr/local/lib
-    create: yes
-    mode: 0644
-
-- name: execute ldconfig
-  become: yes
-  command: /sbin/ldconfig
-  check_mode: no
-  changed_when: no
+- name: ldconfig
+  include_tasks: ldconfig.yml

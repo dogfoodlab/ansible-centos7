@@ -1,0 +1,14 @@
+---
+- name: install modules
+  become: yes
+  yum:
+    name:
+      - make
+      - gcc
+      - gcc-c++
+      - zlib-devel
+      - bzip2-devel
+      - readline-devel
+      - openssl-devel
+      - libffi-devel
+      - xz-devel
