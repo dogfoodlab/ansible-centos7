@@ -1,0 +1,10 @@
+---
+sqlite3_src_url: https://www.sqlite.org/2021/sqlite-autoconf-3340100.tar.gz
+nodenv_nodejs_version: "14.15.4"
+pyenv_python_version: "3.9.1"
+docker_compose_version: "1.28.2"
+
+#nodenv_root: "$HOME/.nodenv"
+#nodenv_clean: yes
+#pyenv_root: "$HOME/.pyenv"
+#pyenv_clean: yes
