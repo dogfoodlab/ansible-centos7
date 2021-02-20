@@ -15,16 +15,9 @@
   register: _src_url
   when: _url_file.stat.exists
 
-- name: check build require
-  set_fact:
-    _build_require:
-      "{{
-        (not _sqlite3.stat.exists) or
-        (_src_url.content is not defined) or
-        ((_src_url.content | b64decode) != sqlite3_src_url)
-      }}"
-  changed_when: _build_require
-
 - name: build sqlite3
   include_tasks: build.yml
-  when: _build_require
+  when: >
+    (not _sqlite3.stat.exists) or
+    (_src_url.content is not defined) or
+    ((_src_url.content | b64decode) != sqlite3_src_url)
