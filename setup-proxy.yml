@@ -2,4 +2,5 @@
 - hosts: proxy
   name: setup proxy
   roles:
+    - role: common
     - role: system-proxy

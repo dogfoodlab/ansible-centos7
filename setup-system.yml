@@ -2,6 +2,7 @@
 - hosts: all
   name: setup system
   roles:
+    - role: common
     - role: system-config
     - role: system-update
     - role: system-reboot

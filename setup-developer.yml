@@ -2,6 +2,7 @@
 - hosts: developer
   name: setup developer
   roles:
+    - role: common
     - role: user-env
     - role: module-utils
     - role: module-develop

@@ -1,0 +1,5 @@
+---
+- name: check os
+  fail:
+    msg: "not supported"
+  when: ansible_os_family != 'RedHat'
