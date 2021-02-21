@@ -2,11 +2,11 @@
 - name: sqlite3-centos7
   include_tasks: sqlite3-centos7-main.yml
   when:
-    - ansible_distribution == 'CentOS'
-    - ansible_pkg_mgr == 'yum'
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version == '7'
 
 - name: sqlite3-centos8
   include_tasks: sqlite3-centos8-main.yml
   when:
-    - ansible_distribution == 'CentOS'
-    - ansible_pkg_mgr == 'dnf'
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version == '8'

@@ -3,6 +3,7 @@ set -eu
 cd $(dirname $0)
 
 #ansible all -i inventories/develop/ -m ping
+#ansible all -i inventories/develop/ -m setup
 #ansible-playbook -i inventories/develop/ init-minimal.yml -u root --ask-pass
 #ansible-playbook -i inventories/develop/ setup-proxy.yml
 

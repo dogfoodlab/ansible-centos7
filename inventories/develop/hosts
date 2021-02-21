@@ -1,10 +1,16 @@
-host01
+#host01
+#host02
+test02
 
 [developer]
-host01
+#host01
+#host02
+test02
 
 [minimal]
-host01
+#host01
+#host02
 
 [proxy]
-host01
+#host01
+#host02

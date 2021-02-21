@@ -1,9 +1,14 @@
 host01
+host02
 test01
+test02
 
 [developer]
 host01
+host02
 test01
+test02
 
 [minimal]
 host01
+host02
