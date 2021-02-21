@@ -2,8 +2,17 @@
 - name: yum
   include_tasks: yum.yml
 
-- name: git224
-  include_tasks: git224.yml
+- name: git-centos7
+  include_tasks: git-centos7-main.yml
+  when:
+    - ansible_distribution == 'CentOS'
+    - ansible_pkg_mgr == 'yum'
+
+- name: git-centos8
+  include_tasks: git-centos8-main.yml
+  when:
+    - ansible_distribution == 'CentOS'
+    - ansible_pkg_mgr == 'dnf'
 
 - name: ldconfig
   include_tasks: ldconfig.yml

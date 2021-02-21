@@ -6,7 +6,7 @@
     block: |
       /usr/local/lib
     create: yes
-    mode: 0644
+    mode: 0444
 
 - name: execute ldconfig
   become: yes

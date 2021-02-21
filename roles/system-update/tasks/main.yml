@@ -1,5 +1,5 @@
 ---
-- name: yum update
+- name: system update
   become: yes
   yum:
     name: "*"

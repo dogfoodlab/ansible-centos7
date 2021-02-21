@@ -1,5 +1,6 @@
 ---
 - name: create sudoers
+  become: yes
   blockinfile:
     path: /etc/sudoers.d/00-wheel
     block: |

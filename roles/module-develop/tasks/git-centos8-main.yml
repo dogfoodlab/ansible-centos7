@@ -1,0 +1,6 @@
+---
+- name: install modules
+  become: yes
+  yum:
+    name:
+      - git

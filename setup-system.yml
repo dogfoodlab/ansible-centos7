@@ -3,5 +3,5 @@
   name: setup system
   roles:
     - role: system-config
-    - role: system-yum-update
+    - role: system-update
     - role: system-reboot

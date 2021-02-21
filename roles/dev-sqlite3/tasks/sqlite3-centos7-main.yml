@@ -1,0 +1,23 @@
+---
+- name: check stat sqlite3 path
+  stat:
+    path: "{{ sqlite3_path }}"
+  register: _sqlite3
+
+- name: check stat url file
+  stat:
+    path: "{{ sqlite3_url_file }}"
+  register: _url_file
+
+- name: read url file
+  slurp:
+    src: "{{ sqlite3_url_file }}"
+  register: _src_url
+  when: _url_file.stat.exists
+
+- name: build sqlite3
+  include_tasks: sqlite3-centos7-build.yml
+  when: >
+    (not _sqlite3.stat.exists) or
+    (_src_url.content is not defined) or
+    ((_src_url.content | b64decode) != sqlite3_src_url)

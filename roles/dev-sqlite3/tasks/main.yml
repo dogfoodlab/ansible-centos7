@@ -1,23 +1,12 @@
 ---
-- name: check stat sqlite3 path
-  stat:
-    path: "{{ sqlite3_path }}"
-  register: _sqlite3
+- name: sqlite3-centos7
+  include_tasks: sqlite3-centos7-main.yml
+  when:
+    - ansible_distribution == 'CentOS'
+    - ansible_pkg_mgr == 'yum'
 
-- name: check stat url file
-  stat:
-    path: "{{ sqlite3_url_file }}"
-  register: _url_file
-
-- name: read url file
-  slurp:
-    src: "{{ sqlite3_url_file }}"
-  register: _src_url
-  when: _url_file.stat.exists
-
-- name: build sqlite3
-  include_tasks: build.yml
-  when: >
-    (not _sqlite3.stat.exists) or
-    (_src_url.content is not defined) or
-    ((_src_url.content | b64decode) != sqlite3_src_url)
+- name: sqlite3-centos8
+  include_tasks: sqlite3-centos8-main.yml
+  when:
+    - ansible_distribution == 'CentOS'
+    - ansible_pkg_mgr == 'dnf'

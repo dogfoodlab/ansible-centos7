@@ -1,0 +1,6 @@
+---
+- name: install sqlite3
+  become: yes
+  yum:
+    name:
+      - sqlite
