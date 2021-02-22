@@ -1,0 +1,9 @@
+---
+- name: install modules
+  become: yes
+  yum:
+    name:
+      - sysstat
+      - dstat
+      - psmisc
+      - bind-utils
