@@ -1,0 +1,23 @@
+---
+- name: install epel GPG key
+  become: yes
+  rpm_key:
+    key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+
+- name: install epel-release
+  become: yes
+  yum:
+    name:
+      - "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+
+- name: install modules
+  become: yes
+  yum:
+    name:
+      - yum-utils
+      - vim
+      - wget
+      - tar
+      - unzip
+      - bzip2
+      - jq

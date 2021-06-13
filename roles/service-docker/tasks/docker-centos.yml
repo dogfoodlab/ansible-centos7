@@ -1,0 +1,34 @@
+---
+- name: uninstall old version
+  become: yes
+  yum:
+    name:
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-engine
+    state: absent
+
+- name: install yum-utils
+  become: yes
+  yum:
+    name:
+      - yum-utils
+
+- name: install docker-ce repos
+  become: yes
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: 0644
+
+- name: install docker-ce
+  become: yes
+  yum:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io

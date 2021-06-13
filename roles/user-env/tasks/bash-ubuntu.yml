@@ -1,0 +1,34 @@
+---
+- name: chmod ~/.profile
+  file:
+    path: ~/.profile
+    state: file
+    mode: 0600
+
+- name: edit ~/.profile
+  blockinfile:
+    path: ~/.profile
+    backup: yes
+    block: |
+      if [ -d "${HOME}/.bash.d" ] ; then
+        for f in "${HOME}"/.bash.d/*.sh ; do
+          . "$f"
+        done
+        unset f
+      fi
+    marker: "# {mark} ANSIBLE MANAGED BLOCK .bash.d"
+    mode: 0600
+
+- name: edit ~/.bash_aliases
+  blockinfile:
+    path: ~/.bash_aliases
+    backup: yes
+    block: |
+      export PS1='\n[\u@\h \w]\n\$ '
+      alias crontab='crontab -i'
+      alias ll='ls -alF'
+      alias la='ls -a'
+      alias ..='cd ..'
+    marker: "# {mark} ANSIBLE MANAGED BLOCK aliases"
+    create: yes
+    mode: 0600

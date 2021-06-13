@@ -1,9 +1,8 @@
 ---
-- name: install modules
-  become: yes
-  yum:
-    name:
-      - sysstat
-      - dstat
-      - psmisc
-      - bind-utils
+- name: module-centos
+  include_tasks: module-centos.yml
+  when: _centos7 or _centos8
+
+- name: module-ubuntu
+  include_tasks: module-ubuntu.yml
+  when: _ubuntu20

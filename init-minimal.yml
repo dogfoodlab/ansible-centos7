@@ -2,6 +2,7 @@
 - hosts: minimal
   name: init minimal centos
   roles:
+    - role: common
     - role: auth-sudoers
     - role: auth-ssh-key
     - role: auth-ssh-secure

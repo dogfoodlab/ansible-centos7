@@ -52,19 +52,19 @@
 
 - name: nodenv update
   shell: |
-    source ~/.bash.d/30-nodenv.sh
+    . ~/.bash.d/30-nodenv.sh
     nodenv update
   when: not _nodejs.stat.exists
 
 - name: install nodejs
   shell: |
-    source ~/.bash.d/30-nodenv.sh
+    . ~/.bash.d/30-nodenv.sh
     nodenv install {{ nodenv_nodejs_version }}
   when: not _nodejs.stat.exists
 
 - name: get global nodejs version
   shell: |
-    source ~/.bash.d/30-nodenv.sh
+    . ~/.bash.d/30-nodenv.sh
     nodenv global
   register: _nodenv_global
   check_mode: no
@@ -72,7 +72,7 @@
 
 - name: change global
   shell: |
-    source ~/.bash.d/30-nodenv.sh
+    . ~/.bash.d/30-nodenv.sh
     nodenv global {{ nodenv_nodejs_version }}
     nodenv rehash
   when: _nodenv_global.stdout != nodenv_nodejs_version

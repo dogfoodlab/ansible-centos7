@@ -1,6 +1,8 @@
 ---
 - name: install sqlite3
   become: yes
-  yum:
+  apt:
     name:
       - sqlite
+      - libsqlite3-dev
+    update_cache: yes

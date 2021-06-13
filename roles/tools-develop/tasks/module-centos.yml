@@ -1,5 +1,5 @@
 ---
-- name: install modules
+- name: module centos
   become: yes
   yum:
     name:
@@ -10,5 +10,6 @@
       - bzip2-devel
       - readline-devel
       - openssl-devel
+      - tk-devel
       - libffi-devel
       - xz-devel

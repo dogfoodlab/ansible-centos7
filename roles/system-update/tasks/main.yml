@@ -1,6 +1,8 @@
 ---
-- name: system update
-  become: yes
-  yum:
-    name: "*"
-    state: latest
+- name: update-centos
+  include_tasks: update-centos.yml
+  when: _centos7 or _centos8
+
+- name: update-ubuntu
+  include_tasks: update-ubuntu.yml
+  when: _ubuntu20

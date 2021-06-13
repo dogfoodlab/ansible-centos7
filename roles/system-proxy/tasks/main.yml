@@ -4,6 +4,7 @@
 
 - name: yum proxy
   include_tasks: yum.yml
+  when: _centos7 or _centos8
 
 - name: docker proxy
   include_tasks: docker.yml

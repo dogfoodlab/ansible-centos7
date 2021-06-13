@@ -1,0 +1,40 @@
+---
+- name: add user to docker group
+  become: yes
+  user:
+    name: "{{ ansible_env.USER }}"
+    groups: docker
+    append: yes
+
+- name: start docker
+  become: yes
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: install docker-compose
+  become: yes
+  get_url:
+    url: "{{ docker_compose_url }}"
+    dest: /usr/local/bin/docker-compose
+    force: yes
+    mode: +x
+
+- name: edit ~/.bashrc
+  blockinfile:
+    path: ~/.bashrc
+    backup: yes
+    block: |
+      alias d='/usr/local/bin/docker-compose'
+    marker: "# {mark} ANSIBLE MANAGED BLOCK docker-compose"
+  when: _centos7 or _centos8
+
+- name: edit ~/.bash_aliases
+  blockinfile:
+    path: ~/.bash_aliases
+    backup: yes
+    block: |
+      alias d='/usr/local/bin/docker-compose'
+    marker: "# {mark} ANSIBLE MANAGED BLOCK docker-compose"
+  when: _ubuntu20

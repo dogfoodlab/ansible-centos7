@@ -1,0 +1,20 @@
+---
+- name: module ubuntu
+  become: yes
+  apt:
+    name:
+      - make
+      - gcc
+      - g++
+      - llvm
+      - libncurses5-dev
+      - zlib1g-dev
+      - libbz2-dev
+      - libreadline-dev
+      - libssl-dev
+      - tk-dev
+      - libffi-dev
+      - liblzma-dev
+      - libxml2-dev
+      - libxmlsec1-dev
+    update_cache: yes

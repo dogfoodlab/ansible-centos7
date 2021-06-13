@@ -1,9 +1,14 @@
 ---
 - name: check os
   set_fact:
-    _centos: "{{ (ansible_os_family == 'RedHat') and (ansible_distribution_major_version in ['7','8']) }}"
+    _centos7: "{{ (ansible_os_family == 'RedHat') and (ansible_distribution_major_version == '7') }}"
+    _centos8: "{{ (ansible_os_family == 'RedHat') and (ansible_distribution_major_version == '8') }}"
+    _ubuntu20: "{{ (ansible_distribution == 'Ubuntu') and (ansible_distribution_major_version == '20') }}"
 
-- name:
+- name: fail on not supported
   fail:
     msg: "not supported"
-  when: not _centos
+  when:
+    - not _centos7
+    - not _centos8
+    - not _ubuntu20

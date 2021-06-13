@@ -1,0 +1,12 @@
+---
+- name: install modules
+  become: yes
+  apt:
+    name:
+      - vim
+      - wget
+      - tar
+      - unzip
+      - bzip2
+      - jq
+    update_cache: yes

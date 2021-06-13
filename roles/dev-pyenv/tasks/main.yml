@@ -41,19 +41,19 @@
 
 - name: pyenv update
   shell: |
-    source ~/.bash.d/30-pyenv.sh
+    . ~/.bash.d/30-pyenv.sh
     pyenv update
   when: not _python.stat.exists
 
 - name: install python
   shell: |
-    source ~/.bash.d/30-pyenv.sh
+    . ~/.bash.d/30-pyenv.sh
     pyenv install {{ pyenv_python_version }}
   when: not _python.stat.exists
 
 - name: get global python version
   shell: |
-    source ~/.bash.d/30-pyenv.sh
+    . ~/.bash.d/30-pyenv.sh
     pyenv global
   register: _pyenv_global
   check_mode: no
@@ -61,7 +61,7 @@
 
 - name: change global
   shell: |
-    source ~/.bash.d/30-pyenv.sh
+    . ~/.bash.d/30-pyenv.sh
     pyenv global {{ pyenv_python_version }}
     pyenv rehash
   when: _pyenv_global.stdout != pyenv_python_version

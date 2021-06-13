@@ -1,64 +1,11 @@
 ---
-- name: uninstall docker-engine
-  become: yes
-  yum:
-    name:
-      - docker-client
-      - docker-client-latest
-      - docker-common
-      - docker-latest
-      - docker-latest-logrotate
-      - docker-logrotate
-      - docker-engine
-    state: absent
+- name: docker centos
+  include_tasks: docker-centos.yml
+  when: _centos7 or _centos8
 
-- name: install yum-utils
-  become: yes
-  yum:
-    name:
-      - yum-utils
+- name: docker ubuntu
+  include_tasks: docker-ubuntu.yml
+  when: _ubuntu20
 
-- name: install docker-ce repos
-  become: yes
-  get_url:
-    url: https://download.docker.com/linux/centos/docker-ce.repo
-    dest: /etc/yum.repos.d/docker-ce.repo
-    mode: 0644
-
-- name: install docker-ce
-  become: yes
-  yum:
-    name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-
-- name: add user to docker group
-  become: yes
-  user:
-    name: "{{ ansible_env.USER }}"
-    groups: docker
-    append: yes
-
-- name: start docker
-  become: yes
-  systemd:
-    name: docker
-    state: started
-    enabled: yes
-
-- name: install docker-compose
-  become: yes
-  get_url:
-    url: "{{ docker_compose_url }}"
-    dest: /usr/local/bin/docker-compose
-    force: yes
-    mode: +x
-
-- name: edit ~/.bashrc
-  blockinfile:
-    path: ~/.bashrc
-    backup: yes
-    block: |
-      alias d='/usr/local/bin/docker-compose'
-    marker: "# {mark} ANSIBLE MANAGED BLOCK docker-compose"
+- name: docker common
+  include_tasks: docker-common.yml

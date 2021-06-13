@@ -1,9 +1,11 @@
 ---
-- name: chmod ~/.bash_profile
-  file:
-    path: ~/.bash_profile
-    state: file
-    mode: 0600
+- name: bash-centos
+  include_tasks: bash-centos.yml
+  when: _centos7 or _centos8
+
+- name: bash-ubuntu
+  include_tasks: bash-ubuntu.yml
+  when: _ubuntu20
 
 - name: chmod ~/.bashrc
   file:
@@ -37,33 +39,6 @@
     create: yes
     mode: 0600
 
-- name: edit ~/.bash_profile
-  blockinfile:
-    path: ~/.bash_profile
-    backup: yes
-    block: |
-      if [ -d "${HOME}/.bash.d" ] ; then
-        for f in "${HOME}"/.bash.d/*.sh ; do
-          source "$f"
-        done
-        unset f
-      fi
-    marker: "# {mark} ANSIBLE MANAGED BLOCK .bash.d"
-    mode: 0600
-
-- name: edit ~/.bashrc
-  blockinfile:
-    path: ~/.bashrc
-    backup: yes
-    block: |
-      export PS1='\n[\u@\h \w]\n\$ '
-      alias crontab='crontab -i'
-      alias ll='ls -alF'
-      alias la='ls -a'
-      alias ..='cd ..'
-    marker: "# {mark} ANSIBLE MANAGED BLOCK aliases"
-    mode: 0600
-
 - name: edit ~/.vimrc
   blockinfile:
     path: ~/.vimrc
@@ -82,3 +57,4 @@
     path: ~/.pki
     state: directory
     mode: 0700
+  when: _centos7 or _centos8

@@ -1,0 +1,11 @@
+---
+- name: install aptitude
+  become: yes
+  apt:
+    name: aptitude
+    update_cache: yes
+
+- name: system update
+  become: yes
+  apt:
+    upgrade: "yes"

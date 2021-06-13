@@ -1,5 +1,5 @@
 ---
-- name: install modules
+- name: install git
   become: yes
   yum:
     name:

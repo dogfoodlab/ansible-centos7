@@ -1,17 +1,20 @@
-host01
+#host01
 #host02
 #test01
 #test02
+#host03
 
 [developer]
-host01
+#host01
 #host02
+host03
 #test01
 #test02
 
 [minimal]
-host01
+#host01
 #host02
+host03 ssh_authorized_key_user=ubuntu
 
 [proxy]
 #host01

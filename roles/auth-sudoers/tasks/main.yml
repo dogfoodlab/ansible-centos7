@@ -1,5 +1,5 @@
 ---
-- name: create sudoers
+- name: create sudoers centos
   become: yes
   blockinfile:
     path: /etc/sudoers.d/00-wheel
@@ -7,3 +7,14 @@
       %wheel ALL=(ALL) NOPASSWD: ALL
     create: yes
     mode: 0600
+  when: _centos7 or _centos8
+
+- name: create sudoers ubuntu
+  become: yes
+  blockinfile:
+    path: /etc/sudoers.d/00-sudo
+    block: |
+      %sudo ALL=(ALL) NOPASSWD: ALL
+    create: yes
+    mode: 0600
+  when: _ubuntu20
