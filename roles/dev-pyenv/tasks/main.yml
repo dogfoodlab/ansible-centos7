@@ -29,7 +29,7 @@
     block: |
       export PYENV_ROOT="{{ pyenv_root }}"
       export PATH="$PYENV_ROOT/bin:$PATH"
-      eval "$(pyenv init -)"
+      eval "$(pyenv init --path)"
     create: yes
     mode: 0600
 
