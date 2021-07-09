@@ -1,0 +1,4 @@
+---
+- name: nginx-centos
+  include_tasks: nginx-centos.yml
+  when: _centos7 or _centos8

@@ -1,4 +1,4 @@
 ---
-- name: update-centos
+- name: yum-cron-centos
   include_tasks: yum-cron-centos.yml
   when: _centos7 or _centos8
