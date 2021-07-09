@@ -4,9 +4,9 @@
   roles:
     - role: common
     - role: user-env
+    - role: tools-system
     - role: tools-utils
     - role: tools-develop
-    - role: tools-system
     - role: dev-sqlite3
     - role: dev-nodenv
     - role: dev-pyenv

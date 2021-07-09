@@ -5,4 +5,5 @@
     - role: common
     - role: system-config
     - role: system-update
+    - role: system-yum-cron
     - role: system-reboot
