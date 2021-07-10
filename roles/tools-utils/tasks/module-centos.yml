@@ -10,6 +10,10 @@
     name:
       - "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
 
+- name: disable nginx
+  become: yes
+  command: "yum-config-manager --setopt 'epel.exclude=nginx' --save"
+
 - name: install modules
   become: yes
   yum:

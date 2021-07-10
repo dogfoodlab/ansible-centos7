@@ -17,8 +17,6 @@
 - name: install nginx
   become: yes
   yum:
-    disablerepo: "*"
-    enablerepo: "nginx-stable"
     name:
       - nginx
 
