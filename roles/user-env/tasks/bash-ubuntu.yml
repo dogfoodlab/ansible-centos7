@@ -29,6 +29,7 @@
       alias ll='ls -alF'
       alias la='ls -a'
       alias ..='cd ..'
+      alias crontab='crontab -i'
     marker: "# {mark} ANSIBLE MANAGED BLOCK aliases"
     create: yes
     mode: 0600

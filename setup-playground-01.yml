@@ -1,0 +1,23 @@
+---
+# - hosts: system
+#   name: setup system
+#   roles:
+#     - role: common
+#     - role: system-config
+#     - role: system-yum-cron
+#     - role: system-update
+#     - role: system-reboot
+- hosts: developer
+  name: setup developer
+  roles:
+    - role: common
+    - role: user-env
+    - role: tools-system
+    - role: tools-utils
+    - role: tools-develop
+    - role: dev-sqlite3
+    - role: dev-nodenv
+    - role: dev-pyenv
+    - role: dev-vscode
+    - role: service-docker
+    # - role: service-nginx
