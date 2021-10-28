@@ -20,9 +20,7 @@
 
 - name: configure
   command:
-    argv:
-      - "./configure"
-      - "--prefix=/usr/local"
+    cmd: ./configure CFLAGS="-DSQLITE_ENABLE_COLUMN_METADATA=1" --prefix=/usr/local
     chdir: "{{ _build_dir.path }}"
 
 - name: make
